@@ -19,12 +19,12 @@
         android:hint="Type a plan"
         android:inputType="textMultiLine"
         android:padding="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/imgCheck"
+        app:layout_constraintEnd_toStartOf="@+id/btnCheck"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtNoPlan"
+        android:id="@+id/txtNoNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You do not have a note"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgCheck"
+        android:id="@+id/btnCheck"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -45,7 +45,7 @@
         app:srcCompat="@drawable/ic_add" />
 
     <include
-        android:id="@+id/rvNoteInclude"
+        android:id="@+id/noteInclude"
         layout="@layout/note_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"

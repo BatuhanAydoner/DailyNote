@@ -9,8 +9,11 @@ import io.reactivex.rxjava3.core.Flowable
 @Dao
 interface NoteDao {
     @Insert
-    suspend fun insert(): List<Long>
+    suspend fun insert(vararg note: Note): List<Long>
 
     @Query("SELECT * FROM notes")
-    suspend fun query(): Flowable<List<Note>>
+    suspend fun query(): List<Note>
+
+    @Query("DELETE FROM notes WHERE note = :text")
+    suspend fun delete(text: String)
 }
