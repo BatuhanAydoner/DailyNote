@@ -13,6 +13,10 @@ import com.example.dailynote.database.DatabaseHelper
 import com.example.dailynote.model.Note
 import com.example.dailynote.modelview.NoteViewModel
 import com.example.dailynote.util.showToast
+<<<<<<< HEAD
+=======
+import io.reactivex.rxjava3.core.Completable
+>>>>>>> 0f06794... Setup rxjava2 for room database
 import kotlinx.android.synthetic.main.note_content.*
 import kotlinx.android.synthetic.main.note_recyclerview.*
 import kotlinx.coroutines.CoroutineScope

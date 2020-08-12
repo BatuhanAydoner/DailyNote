@@ -64,4 +64,8 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+<<<<<<< HEAD
+=======
+    implementation "androidx.room:room-rxjava2:$room_version"
+>>>>>>> 0f06794... Setup rxjava2 for room database
 }
