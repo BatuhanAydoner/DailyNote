@@ -108,6 +108,5 @@ class MainActivity : AppCompatActivity() {
     private fun updateRecyclerview(note: Note) {
         myList.add(note)
         myAdapter.updateList(myList)
-
     }
 }
