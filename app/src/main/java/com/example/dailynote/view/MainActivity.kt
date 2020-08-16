@@ -3,7 +3,6 @@ package com.example.dailynote.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,10 +15,6 @@ import com.example.dailynote.database.DatabaseHelper
 import com.example.dailynote.model.Note
 import com.example.dailynote.modelview.NoteViewModel
 import com.example.dailynote.util.showToast
-<<<<<<< HEAD
-=======
-import io.reactivex.rxjava3.core.Completable
->>>>>>> 0f06794... Setup rxjava2 for room database
 import kotlinx.android.synthetic.main.note_content.*
 import kotlinx.android.synthetic.main.note_recyclerview.*
 import kotlinx.coroutines.CoroutineScope
@@ -90,15 +85,23 @@ class MainActivity : AppCompatActivity() {
     // Setup noteViewModel
     private fun setViewModel() {
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
-        noteViewModel.setNotes(this)
+        // noteViewModel.setNotes(this)
     }
 
     // If database has a note, observe will work
     private fun observeViewModel() {
-        noteViewModel.notes.observe(this, Observer {
+        /*noteViewModel.notes.observe(this, Observer {
             it?.let {
                 myList = it as ArrayList<Note>
                 myAdapter.updateList(it)
+                showStateOfNoListItemText(true)
+                showSatateOfRecyclerview(false)
+            }
+        })*/
+        DatabaseHelper(this).dao().query().observe(this, Observer {
+            it?.let {
+                myList = it as ArrayList<Note>
+                myAdapter.updateList(myList)
                 showStateOfNoListItemText(true)
                 showSatateOfRecyclerview(false)
             }
@@ -126,16 +129,6 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             var note = Note(noteText, 0)
             var itemId = DatabaseHelper(this@MainActivity).dao().insert(note)
-            Log.e("myApp", "" + itemId)
-
-            withContext(Dispatchers.Main) {
-                updateRecyclerview(note)
-            }
         }
-    }
-
-    private fun updateRecyclerview(note: Note) {
-        myList.add(note)
-        myAdapter.updateList(myList)
     }
 }
