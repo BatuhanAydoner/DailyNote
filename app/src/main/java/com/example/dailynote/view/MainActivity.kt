@@ -3,6 +3,9 @@ package com.example.dailynote.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,11 +43,36 @@ class MainActivity : AppCompatActivity() {
         buttonEvents()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete -> {
+                if (myList.size > 0 ) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        var dao = DatabaseHelper(this@MainActivity).dao()
+                        dao.delete()
+                        withContext(Dispatchers.Main) {
+                            myList.clear()
+                            myAdapter.updateList(myList)
+                        }
+                    }
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     // etNote
     private fun buttonEvents() {
         btnCheck.setOnClickListener {
             if (etNote.text.toString().isNotEmpty()) {
                 insertData(etNote.text.toString())
+                etNote.text.clear()
             }else {
                 showToast(this, "Please type your note!")
             }
@@ -71,14 +99,14 @@ class MainActivity : AppCompatActivity() {
             it?.let {
                 myList = it as ArrayList<Note>
                 myAdapter.updateList(it)
-                showSatateOfNoListItemText(true)
+                showStateOfNoListItemText(true)
                 showSatateOfRecyclerview(false)
             }
         })
     }
 
     // If list is not empty txtNoNote state is invisible
-    private fun showSatateOfNoListItemText(invisible: Boolean) {
+    private fun showStateOfNoListItemText(invisible: Boolean) {
         if (invisible)
             txtNoNote.visibility = View.GONE
         else
@@ -96,10 +124,11 @@ class MainActivity : AppCompatActivity() {
     // Insert note using coroutine scope
     private fun insertData(noteText: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            var note = Note(noteText)
+            var note = Note(noteText, 0)
             var itemId = DatabaseHelper(this@MainActivity).dao().insert(note)
+            Log.e("myApp", "" + itemId)
 
-            launch(Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
                 updateRecyclerview(note)
             }
         }

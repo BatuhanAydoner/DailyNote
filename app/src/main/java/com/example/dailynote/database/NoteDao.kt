@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.dailynote.model.Note
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface NoteDao {
@@ -12,7 +13,7 @@ interface NoteDao {
     suspend fun insert(vararg note: Note): List<Long>
 
     @Query("SELECT * FROM notes")
-    suspend fun query(): List<Note>
+    fun query(): Single<List<Note>>
 
     @Query("DELETE FROM notes WHERE note = :text")
     suspend fun delete(text: String)
