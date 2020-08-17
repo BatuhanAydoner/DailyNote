@@ -102,8 +102,14 @@ class MainActivity : AppCompatActivity() {
             it?.let {
                 myList = it as ArrayList<Note>
                 myAdapter.updateList(myList)
-                showStateOfNoListItemText(true)
-                showSatateOfRecyclerview(false)
+                if (it.size > 0) {
+                    showStateOfNoListItemText(true)
+                    showSatateOfRecyclerview(false)
+                }
+                else {
+                    showStateOfNoListItemText(false)
+                    showSatateOfRecyclerview(true)
+                }
             }
         })
     }
